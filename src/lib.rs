@@ -128,6 +128,9 @@ use std::sync::{Mutex, MutexGuard};
 #[cfg(windows)]
 use winapi_util::console as wincon;
 
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
+
 /// This trait describes the behavior of writers that support colored output.
 pub trait WriteColor: io::Write {
     /// Returns true if and only if the underlying writer supports colors.
@@ -203,6 +206,7 @@ impl<T: ?Sized + WriteColor> WriteColor for Box<T> {
 /// string of the variant name to the corresponding variant. Any other string
 /// results in an error.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub enum ColorChoice {
     /// Try very hard to emit colors. This includes emitting ANSI colors
     /// on Windows if the console API is unavailable.
@@ -1644,6 +1648,7 @@ impl WriteColor for WindowsBuffer {
 
 /// A color specification.
 #[derive(Clone, Debug, Eq, PartialEq)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub struct ColorSpec {
     fg_color: Option<Color>,
     bg_color: Option<Color>,
@@ -1889,6 +1894,7 @@ impl ColorSpec {
 /// Hexadecimal numbers are written with a `0x` prefix.
 #[allow(missing_docs)]
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub enum Color {
     Black,
     Blue,
