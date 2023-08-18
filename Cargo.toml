@@ -17,6 +17,9 @@ edition = "2018"
 name = "termcolor"
 bench = false
 
+[dependencies]
+serde = { version = "1", optional = true, features = ["derive"] }
+
 [target.'cfg(windows)'.dependencies]
 winapi-util = "0.1.3"
 
@@ -24,3 +27,6 @@ winapi-util = "0.1.3"
 # TODO: Re-enable this once the MSRV is 1.43 or greater.
 # See: https://github.com/BurntSushi/termcolor/issues/35
 # doc-comment = "0.3"
+
+[features]
+default = []
